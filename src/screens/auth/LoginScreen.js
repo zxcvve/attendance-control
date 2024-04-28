@@ -56,13 +56,13 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     button: {
-        backgroundColor: 'blue',
+        backgroundColor: '#002fa7',
         paddingVertical: 12,
         paddingHorizontal: 50,
         borderRadius: 5,
     },
     buttonText: {
-        color: 'white',
+        color: '#ffffff',
         fontSize: 16,
         fontWeight: 'bold',
     },

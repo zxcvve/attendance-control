@@ -1,64 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { lessonsFakeData } from "../../fakeData";
-import { AntDesign } from '@expo/vector-icons'; // Импортируем иконки из пакета Ant Design
+import { AntDesign } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const HomeScreen = ({ }) => {
+const HomeScreen = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const navigation = useNavigation();
 
-    const changeDate = (direction) => {
+    const changeDate = useCallback((direction) => {
         const currentDate = new Date(selectedDate);
-        let newDate;
-
-        if (direction === 'left') {
-            newDate = new Date(currentDate.setDate(currentDate.getDate() - 1)); // Уменьшаем дату на 1 день
-        } else {
-            newDate = new Date(currentDate.setDate(currentDate.getDate() + 1)); // Увеличиваем дату на 1 день
-        }
-
+        const newDate = new Date(direction === 'left' ? currentDate.setDate(currentDate.getDate() - 1) : currentDate.setDate(currentDate.getDate() + 1));
         setSelectedDate(newDate);
-    };
+    }, [selectedDate]);
 
-    const lessonsPressHandler = () => {
+    const lessonsPressHandler = useCallback(() => {
         navigation.navigate('GroupList');
-    };
+    }, [navigation]);
 
     const renderItem = ({ item }) => (
         <TouchableOpacity onPress={lessonsPressHandler}>
             <View style={styles.itemContainer}>
                 <View>
-                    <Text>{item.title}</Text>
+                    <Text style={styles.titleText}>{item.title}</Text>
                     <Text>[{item.number}]</Text>
                 </View>
-                <Text>{item.time}</Text>
+                <Text style={styles.titleText}>{item.time}</Text>
             </View>
         </TouchableOpacity>
     );
 
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const ruDate = selectedDate.toLocaleDateString('ru-RU', options);
+    const ruDate = selectedDate.toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
+    const dayOfWeek = selectedDate.toLocaleDateString('ru-RU', { weekday: 'long' });
 
     return (
         <View style={styles.container}>
             <View style={styles.dateContainer}>
                 <TouchableOpacity onPress={() => changeDate('left')}>
-                    <AntDesign name="left" size={20} color="black" />
+                    <AntDesign name="left" size={24} color="black" />
                 </TouchableOpacity>
                 <View style={styles.dayContainer}>
                     <Text style={styles.selectedDate}>{ruDate}</Text>
-                    <Text style={styles.day}>{selectedDate.toLocaleDateString('ru-RU', { weekday: 'long' })}</Text>
+                    <Text style={styles.day}>{dayOfWeek}</Text>
                 </View>
                 <TouchableOpacity onPress={() => changeDate('right')}>
-                    <AntDesign name="right" size={20} color="black" />
+                    <AntDesign name="right" size={24} color="black" />
                 </TouchableOpacity>
             </View>
 
             <FlatList
                 data={lessonsFakeData}
                 renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item.id}
             />
         </View>
     );
@@ -76,12 +69,16 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
     },
     selectedDate: {
-        fontSize: 18,
+        fontSize: 20,
         fontWeight: 'bold',
     },
     day: {
-        fontSize: 14,
+        fontSize: 16,
         color: 'gray',
+    },
+    titleText: {
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     dayContainer: {
         alignItems: 'center'

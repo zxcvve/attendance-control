@@ -19,8 +19,8 @@ const GroupList = () => {
         <TouchableOpacity onPress={() => toggleStudentSelection(item.id)}>
             <View style={styles.item}>
                 <View style={styles.personText}>
-                    <Text>{item.id}) </Text>
-                    <Text>{item.name}</Text>
+                    <Text style={styles.itemElementText}>{item.id}) </Text>
+                    <Text style={styles.itemElementText}>{item.name}</Text>
                 </View>
                 <View style={styles.button}>
                     {selectedStudentsIds.includes(item.id) && (
@@ -33,12 +33,14 @@ const GroupList = () => {
 
     return (
         <View style={styles.container}>
-            <Text>Группа 1095</Text>
-            <FlatList
-                data={fakeStudents}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id.toString()}
-            />
+            <Text style={styles.groupText}>Группа 1095</Text>
+            <View style={styles.listContainer}>
+                <FlatList
+                    data={fakeStudents}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                />
+            </View>
         </View>
     );
 };
@@ -49,12 +51,22 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
     },
+    groupText:{
+        fontSize: 18,
+        fontWeight:"bold"
+    },
+    listContainer: {
+
+    },
+    itemElementText : {
+      fontSize: 16,
+    },
     item: {
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#ccc',
-        padding: 12,
+        paddingVertical: 10,
+        //backgroundColor: "#00cfff",
         marginVertical: 8,
     },
     personText: {
