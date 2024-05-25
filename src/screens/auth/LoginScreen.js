@@ -4,29 +4,38 @@ import { useNavigation } from '@react-navigation/native';
 import {setIsLoggedIn, setIsTeacher, setUser} from "../../redux/actions/userActions";
 import {useDispatch} from "react-redux";
 import userStorage from "../../storage/userStorage";
+import axios from "axios";
 
 const LoginScreen = () => {
-    const [email, setEmail] = useState('');
+    const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
     const dispatch = useDispatch()
 
-    const handleLogin = () => {
+    async function handleLogin () {
+        let user = null;
+        await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/login`, {
+            email: login,
+            password: password
+          }
+          ).then(response => {
+            if(response.status === 200){
+                user = response.data
+            }
 
-        const user = {
-            id: 666,
-            fullName: "Николаенко Кирилл",
-            isTeacher: true,
-        }
+          }).catch(error => {
+            console.log(error)
 
+        })
+        const isTeacher = user.role === "Преподаватель";
         if(user){
             dispatch(setIsLoggedIn(true));
-            dispatch(setIsTeacher(user.isTeacher));
+            dispatch(setIsTeacher(isTeacher));
             //dispatch(setIsTeacher(false));
             dispatch(setUser(user));
             userStorage.setUserLocally(user).then();
         }
-    };
+    }
 
     return (
         <View style={styles.container}>
@@ -34,8 +43,8 @@ const LoginScreen = () => {
             <TextInput
                 style={styles.input}
                 placeholder="Email"
-                onChangeText={text => setEmail(text)}
-                value={email}
+                onChangeText={text => setLogin(text)}
+                value={login}
             />
             <TextInput
                 style={styles.input}
