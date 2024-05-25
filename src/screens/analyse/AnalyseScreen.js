@@ -142,6 +142,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     dataWrapper: {
+        marginLeft: 10,
         marginTop: 0,
     },
     container: {
@@ -149,7 +150,6 @@ const styles = StyleSheet.create({
         padding: 4,
         paddingTop: 30,
         backgroundColor: '#fff',
-        marginTop: 20, // Added marginTop for top margin
     },
     head: {
         height: 50,

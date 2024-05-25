@@ -9,38 +9,38 @@ const GroupList = () => {
         fakeStudents.forEach(group => {
             initialSelectedStudents[group.group] = group.studentsList
                 .filter(student => student.isVisited)
-                .map(student => student.studentId);
+                .map((_, index) => index); // Using index instead of studentId
         });
         return initialSelectedStudents;
     });
 
-    const toggleStudentSelection = (groupId, studentId) => {
+    const toggleStudentSelection = (groupId, studentIndex) => { // Changed studentId to studentIndex
         const groupSelectedStudents = selectedStudentsIds[groupId] || [];
 
-        const isSelected = groupSelectedStudents.includes(studentId);
+        const isSelected = groupSelectedStudents.includes(studentIndex);
 
         if (isSelected) {
             setSelectedStudentsIds({
                 ...selectedStudentsIds,
-                [groupId]: groupSelectedStudents.filter(id => id !== studentId)
+                [groupId]: groupSelectedStudents.filter(id => id !== studentIndex)
             });
         } else {
             setSelectedStudentsIds({
                 ...selectedStudentsIds,
-                [groupId]: [...groupSelectedStudents, studentId]
+                [groupId]: [...groupSelectedStudents, studentIndex]
             });
         }
     };
 
-    const renderStudentItem = ({ item }) => (
-        <TouchableOpacity onPress={() => toggleStudentSelection(selectedGroup.group, item.studentId)}>
+    const renderStudentItem = ({ item, index }) => (
+        <TouchableOpacity onPress={() => toggleStudentSelection(selectedGroup.group, index)}>
             <View style={styles.item}>
                 <View style={styles.personText}>
-                    <Text style={styles.itemElementText}>{item.studentId}) </Text>
+                    <Text style={styles.itemElementText}>{index + 1}) </Text>
                     <Text style={styles.itemElementText}>{item.name}</Text>
                 </View>
                 <View style={styles.button}>
-                    {(selectedStudentsIds[selectedGroup.group] || []).includes(item.studentId) && (
+                    {(selectedStudentsIds[selectedGroup.group] || []).includes(index) && (
                         <View style={{ width: 10, height: 10, backgroundColor: 'black', borderRadius: 3 }} />
                     )}
                 </View>
@@ -56,6 +56,10 @@ const GroupList = () => {
         </TouchableOpacity>
     );
 
+    const saveData = () => {
+        console.log('Data saved');
+    };
+
     return (
         <View style={styles.container}>
             <View style={styles.groupsContainer}>
@@ -66,7 +70,6 @@ const GroupList = () => {
                     horizontal
                 />
             </View>
-            <Text style={styles.groupText}>Группа {selectedGroup.group}</Text>
             <View style={styles.listContainer}>
                 <FlatList
                     data={selectedGroup.studentsList}
@@ -74,6 +77,9 @@ const GroupList = () => {
                     keyExtractor={(item) => item.studentId.toString()}
                 />
             </View>
+            <TouchableOpacity style={styles.saveButton} onPress={saveData}>
+                <Text style={styles.saveButtonText}>Сохранить</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -86,7 +92,7 @@ const styles = StyleSheet.create({
     },
     groupsContainer: {
         flexDirection: 'row',
-        marginBottom: 20,
+        marginBottom: 10,
     },
     groupText: {
         fontSize: 18,
@@ -129,6 +135,20 @@ const styles = StyleSheet.create({
         backgroundColor: '#00cfff',
     },
     groupItemText: {
+        fontSize: 16,
+    },
+    saveButton: {
+        backgroundColor: '#002fa7',
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 15,
+        borderRadius: 10,
+        marginTop: 20,
+        marginBottom: 20,
+    },
+    saveButtonText: {
+        color: 'white',
+        fontWeight: 'bold',
         fontSize: 16,
     },
 });

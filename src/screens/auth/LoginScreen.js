@@ -16,11 +16,12 @@ const LoginScreen = () => {
         const user = {
             id: 666,
             fullName: "Николаенко Кирилл",
+            isTeacher: true,
         }
 
         if(user){
             dispatch(setIsLoggedIn(true));
-            dispatch(setIsTeacher(true));
+            dispatch(setIsTeacher(user.isTeacher));
             //dispatch(setIsTeacher(false));
             dispatch(setUser(user));
             userStorage.setUserLocally(user).then();

@@ -13,7 +13,7 @@
               { studentId: 3, name: 'Сидоров Сидор', isVisited:false},
               { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
               { studentId: 5, name: 'Николаев Николай', isVisited:false},
-                { studentId: 666, name: 'Николаенко Кирилл', isVisited:true},
+              { studentId: 666, name: 'Николаенко Кирилл', isVisited:true},
             ]
         },
         {
@@ -101,5 +101,45 @@
                 { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
                 { studentId: 5, name: 'Николаев Пипкин', isVisited:true},
             ]
-        }
+        },
+        {
+            date: '2024-05-12',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:true},
+                { studentId: 2, name: 'Петров Петр', isVisited:true},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:true},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:true},
+            ]
+        },
+        {
+            date: '2024-05-12',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:true},
+                { studentId: 2, name: 'Петров Петр', isVisited:true},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:true},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:true},
+            ]
+        },
+        {
+            date: '2024-05-12',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:true},
+                { studentId: 2, name: 'Петров Петр', isVisited:true},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:true},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:true},
+            ]
+        },
+        {
+            date: '2024-05-12',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:true},
+                { studentId: 2, name: 'Петров Петр', isVisited:true},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:true},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:true},
+            ]
+        },
     ]

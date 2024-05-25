@@ -3,7 +3,7 @@ import { View, Text, ActivityIndicator } from 'react-native';
 import {useDispatch} from "react-redux";
 import {useNavigation} from "@react-navigation/native";
 import userStorage from "../../storage/userStorage";
-import {setIsLoggedIn, setUser} from "../../redux/actions/userActions";
+import {setIsLoggedIn, setIsTeacher, setUser} from "../../redux/actions/userActions";
 const LoaderScreen = () => {
     const dispatch = useDispatch();
     const navigation = useNavigation();
@@ -14,6 +14,7 @@ const LoaderScreen = () => {
                 const user = await userStorage.getUserLocally();
                 if(user !== null){
                     dispatch(setUser(user))
+                    dispatch(setIsTeacher(user.isTeacher));
                     dispatch(setIsLoggedIn(true));
                 }else {
                     dispatch(setUser(null));
