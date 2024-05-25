@@ -12,9 +12,9 @@ const LoaderScreen = () => {
         const loadData = async () => {
             try {
                 const user = await userStorage.getUserLocally();
-                if(user !== null){
+                if(user){
                     dispatch(setUser(user))
-                    dispatch(setIsTeacher(user.isTeacher));
+                    dispatch(setIsTeacher(user?.isTeacher));
                     dispatch(setIsLoggedIn(true));
                 }else {
                     dispatch(setUser(null));
