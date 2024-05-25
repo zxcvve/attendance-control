@@ -3,27 +3,36 @@ import { FlatList, View, StyleSheet, Text, TouchableOpacity } from 'react-native
 import { fakeStudents } from '../../fakeData';
 
 const GroupList = () => {
-    const [selectedStudentsIds, setSelectedStudentsIds] = useState([]);
+    const [selectedGroup, setSelectedGroup] = useState(fakeStudents[0]);
+    const [selectedStudentsIds, setSelectedStudentsIds] = useState({});
 
-    const toggleStudentSelection = (studentId) => {
-        const isSelected = selectedStudentsIds.includes(studentId);
+    const toggleStudentSelection = (groupId, studentId) => {
+        const groupSelectedStudents = selectedStudentsIds[groupId] || [];
+
+        const isSelected = groupSelectedStudents.includes(studentId);
 
         if (isSelected) {
-            setSelectedStudentsIds(selectedStudentsIds.filter(id => id !== studentId));
+            setSelectedStudentsIds({
+                ...selectedStudentsIds,
+                [groupId]: groupSelectedStudents.filter(id => id !== studentId)
+            });
         } else {
-            setSelectedStudentsIds([...selectedStudentsIds, studentId]);
+            setSelectedStudentsIds({
+                ...selectedStudentsIds,
+                [groupId]: [...groupSelectedStudents, studentId]
+            });
         }
     };
 
-    const renderItem = ({ item }) => (
-        <TouchableOpacity onPress={() => toggleStudentSelection(item.id)}>
+    const renderStudentItem = ({ item }) => (
+        <TouchableOpacity onPress={() => toggleStudentSelection(selectedGroup.group, item.studentId)}>
             <View style={styles.item}>
                 <View style={styles.personText}>
-                    <Text style={styles.itemElementText}>{item.id}) </Text>
+                    <Text style={styles.itemElementText}>{item.studentId}) </Text>
                     <Text style={styles.itemElementText}>{item.name}</Text>
                 </View>
                 <View style={styles.button}>
-                    {selectedStudentsIds.includes(item.id) && (
+                    {(selectedStudentsIds[selectedGroup.group] || []).includes(item.studentId) && (
                         <View style={{ width: 10, height: 10, backgroundColor: 'black', borderRadius: 3 }} />
                     )}
                 </View>
@@ -31,14 +40,30 @@ const GroupList = () => {
         </TouchableOpacity>
     );
 
+    const renderGroupItem = ({ item }) => (
+        <TouchableOpacity onPress={() => setSelectedGroup(item)}>
+            <View style={[styles.groupItem, selectedGroup.group === item.group && styles.selectedGroup]}>
+                <Text style={styles.groupItemText}>Группа {item.group}</Text>
+            </View>
+        </TouchableOpacity>
+    );
+
     return (
         <View style={styles.container}>
-            <Text style={styles.groupText}>Группа 1095</Text>
-            <View style={styles.listContainer}>
+            <View style={styles.groupsContainer}>
                 <FlatList
                     data={fakeStudents}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
+                    renderItem={renderGroupItem}
+                    keyExtractor={(item) => item.group.toString()}
+                    horizontal
+                />
+            </View>
+            <Text style={styles.groupText}>Группа {selectedGroup.group}</Text>
+            <View style={styles.listContainer}>
+                <FlatList
+                    data={selectedGroup.studentsList}
+                    renderItem={renderStudentItem}
+                    keyExtractor={(item) => item.studentId.toString()}
                 />
             </View>
         </View>
@@ -51,22 +76,25 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingTop: 20,
     },
-    groupText:{
+    groupsContainer: {
+        flexDirection: 'row',
+        marginBottom: 20,
+    },
+    groupText: {
         fontSize: 18,
-        fontWeight:"bold"
+        fontWeight: 'bold',
     },
     listContainer: {
-
+        flex: 1,
     },
-    itemElementText : {
-      fontSize: 16,
+    itemElementText: {
+        fontSize: 16,
     },
     item: {
         justifyContent: 'space-between',
         flexDirection: 'row',
         alignItems: 'center',
         paddingVertical: 10,
-        //backgroundColor: "#00cfff",
         marginVertical: 8,
     },
     personText: {
@@ -82,6 +110,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 10,
+    },
+    groupItem: {
+        padding: 10,
+        marginRight: 10,
+        borderRadius: 5,
+        backgroundColor: '#ccc',
+    },
+    selectedGroup: {
+        backgroundColor: '#00cfff',
+    },
+    groupItemText: {
+        fontSize: 16,
     },
 });
 

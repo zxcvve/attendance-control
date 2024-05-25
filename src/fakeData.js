@@ -1,36 +1,106 @@
     export const lessonsFakeData = [
-        { id: 1, title: 'Информатика', time: '10:00', number: 1092 },
-        { id: 2, title: 'Математика', time: '12:00', number: 1091 },
-        { id: 3, title: 'Биология', time: '14:00', number: 1095 },
+        { id: 1, title: 'Информатика', time: '10:00', groups: [1092] },
+        { id: 2, title: 'Математика', time: '12:00', groups: [1091,1095] },
+        { id: 3, title: 'Биология', time: '14:00', groups: [1095] },
     ];
 
     export const fakeStudents = [
-        { id: 1, name: 'Иванов Иван' },
-        { id: 2, name: 'Петров Петр' },
-        { id: 3, name: 'Сидоров Сидор' },
-        { id: 4, name: 'Алексеев Алексей' },
-        { id: 5, name: 'Николаев Николай' },
-        { id: 6, name: 'Козлова Елена' },
-        { id: 7, name: 'Васильев Василий' },
-        { id: 8, name: 'Смирнова Ольга' },
-        { id: 9, name: 'Павлов Павел' },
-        { id: 10, name: 'Федорова Анна' },
-        { id: 11, name: 'Григорьев Григорий' },
-        { id: 12, name: 'Дмитриев Дмитрий' },
-        { id: 13, name: 'Орлова Ольга' },
-        { id: 14, name: 'Тарасова Татьяна' },
-        { id: 15, name: 'Михайлов Михаил' },
-        { id: 16, name: 'Кузнецова Екатерина' },
-        { id: 17, name: 'Ильин Илья' },
-        { id: 18, name: 'Степанова Анастасия' },
-        { id: 19, name: 'Белов Артем' },
-        { id: 20, name: 'Куликова Ксения' },
-        { id: 21, name: 'Лебедева Дарья' },
-        { id: 22, name: 'Андреев Андрей' },
-        { id: 23, name: 'Сергеева Светлана' },
-        { id: 24, name: 'Захаров Игорь' },
-        { id: 25, name: 'Матвеева Мария' },
+        {
+        group: 1095,
+            studentsList : [
+              { studentId: 1, name: 'Иванов Иван', isVisited:false},
+              { studentId: 2, name: 'Петров Петр', isVisited:false},
+              { studentId: 3, name: 'Сидоров Сидор', isVisited:false},
+              { studentId: 4, name: 'Алексеев Алексей', isVisited:false},
+              { studentId: 5, name: 'Николаев Николай', isVisited:false},
+            ]
+        },
+        {
+            group: 1091,
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:false},
+                { studentId: 2, name: 'Петров Петр', isVisited:false},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:false},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:false},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:false},
+            ]
+        }
     ];
 
+    export const fakeTeacherLessons = [
+        {
+            lessonId: 123,
+            title:'Математика'
+        },
+        {
+            lessonId: 124,
+            title:'География'
+        },
+    ];
+
+    export const fakeTeacherLessonGroups = [1091,1095];
+
+    export const analData = [
+        {
+            date: '2024-04-28',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:false},
+                { studentId: 2, name: 'Петров Петр', isVisited:false},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:false},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:false},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:false},
+            ]
+        },
+        {
+            date: '2024-04-30',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:false},
+                { studentId: 2, name: 'Петров Петр', isVisited:true},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:false},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:false},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:false},
+            ]
+        },
+        {
+            date: '2024-05-10',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:true},
+                { studentId: 2, name: 'Петров Петр', isVisited:true},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:true},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:true},
+            ]
+        },
+        {
+            date: '2024-05-12',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:true},
+                { studentId: 2, name: 'Петров Петр', isVisited:true},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:true},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:true},
+            ]
+        },
+        {
+            date: '2024-05-12',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:true},
+                { studentId: 2, name: 'Петров Петр', isVisited:true},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:true},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:true},
+            ]
+        },
+        {
+            date: '2024-05-12',
+            studentsList : [
+                { studentId: 1, name: 'Иванов Иван', isVisited:true},
+                { studentId: 2, name: 'Петров Петр', isVisited:true},
+                { studentId: 3, name: 'Сидоров Сидор', isVisited:true},
+                { studentId: 4, name: 'Алексеев Алексей', isVisited:true},
+                { studentId: 5, name: 'Николаев Пипкин', isVisited:true},
+            ]
+        }
+    ]
 
     export  const fakeDates = ['2024-04-28', '2024-04-29', '2024-04-30','2024-05-1','2024-05-2','2024-05-3','2024-05-4'];

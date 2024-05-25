@@ -1,63 +1,81 @@
 import React, { useState, useEffect } from 'react';
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import {Table, Row, Rows, TableWrapper, Col, Cell, Cols} from 'react-native-table-component';
-import { lessonsFakeData, fakeStudents, fakeDates } from '../../fakeData';
-import {Picker} from "@react-native-picker/picker";
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { Table, Row, Rows, TableWrapper, Col } from 'react-native-table-component';
+import { Picker } from '@react-native-picker/picker';
+import { analData, fakeTeacherLessons, fakeTeacherLessonGroups } from '../../fakeData';
 
 const AnalyseScreen = () => {
-    const [selectedLesson, setSelectedLesson] = useState("Информатика");
-    const [selectedGroup, setSelectedGroup] = useState("1092");
+    const [selectedLesson, setSelectedLesson] = useState(fakeTeacherLessons[0].title);
+    const [selectedGroup, setSelectedGroup] = useState(fakeTeacherLessonGroups[0]);
     const [attendanceData, setAttendanceData] = useState([]);
     const [usersData, setUsersData] = useState([]);
-    const headWidth = [145, 50,50,50,50,50,50,50]
-    const cellWidth = [0,50,50,50,50,50,50,50]
+    const [dates, setDates] = useState([]);
+    const [headWidth, setHeadWidth] = useState([]);
+    const [cellWidth, setCellWidth] = useState([]);
+
+    const getCellWidth = (datesList) => {
+        let head = [145];
+        let cell = [0];
+
+        datesList.forEach(() => {
+            head.push(50);
+            cell.push(50);
+        });
+
+        setHeadWidth(head);
+        setCellWidth(cell);
+    };
 
     useEffect(() => {
-        if (lessonsFakeData && fakeStudents) {
-            const initData = [];
+        if (analData) {
             const users = [];
-            fakeStudents.forEach(student => {
-                users.push(student.name);
+            const dates = [];
+            const initData = [];
+
+            analData.forEach((entry) => {
+                dates.push(entry.date);
+                entry.studentsList.forEach((student, index) => {
+                    if (!users[index]) {
+                        users.push(student.name);
+                    }
+                    if (!initData[index]) {
+                        initData[index] = [];
+                    }
+                    initData[index].push(student.isVisited ? '✓' : 'x');
+                });
             });
 
-            for (let i = 0; i < fakeStudents.length; i += 1) {
-                const rowData = [];
-                for (let j = 0; j < fakeDates.length; j += 1) {
-                    rowData.push(`x`);
-                }
-                initData.push(rowData);
-            }
-
+            getCellWidth(dates);
             setUsersData(users);
             setAttendanceData(initData);
+            setDates(dates);
         }
     }, []);
-
 
     const renderTable = () => (
         <ScrollView horizontal={true}>
             <View style={styles.container}>
                 <Table borderStyle={{ borderWidth: 1 }}>
                     <Row
-                        data={["", ...fakeDates]}
+                        data={["", ...dates]}
                         widthArr={headWidth}
-                        style={[styles.head]}
+                        style={styles.head}
                         textStyle={styles.text}
                     />
-                        <TableWrapper style={styles.wrapper}>
-                            <Col
-                                data={[...usersData]}
-                                style={[styles.title]}
-                                heightArr={[50]}
-                                textStyle={styles.text}
-                            />
-                            <Rows
-                                data={attendanceData}
-                                widthArr={cellWidth}
-                                style={[styles.row]}
-                                textStyle={styles.text}
-                            />
-                        </TableWrapper>
+                    <TableWrapper style={styles.wrapper}>
+                        <Col
+                            data={usersData}
+                            style={styles.title}
+                            heightArr={[50]}
+                            textStyle={styles.text}
+                        />
+                        <Rows
+                            data={attendanceData}
+                            widthArr={cellWidth}
+                            style={styles.row}
+                            textStyle={styles.text}
+                        />
+                    </TableWrapper>
                 </Table>
             </View>
         </ScrollView>
@@ -71,12 +89,12 @@ const AnalyseScreen = () => {
                     <Text> Предмет: </Text>
                     <Picker
                         selectedValue={selectedLesson}
-                        style={{ height: 40, width: 180}}
-                        onValueChange={(itemValue, itemIndex) => setSelectedLesson(itemValue)}
+                        style={{ height: 40, width: 180 }}
+                        onValueChange={(itemValue) => setSelectedLesson(itemValue)}
                     >
-                        <Picker.Item label="Математика" value="Математика" />
-                        <Picker.Item label="Биология" value="Биология" />
-                        <Picker.Item label="Информатика" value="Информатика" />
+                        {fakeTeacherLessons.map((lesson) => (
+                            <Picker.Item key={lesson.lessonId} label={lesson.title} value={lesson.title} />
+                        ))}
                     </Picker>
                 </View>
 
@@ -84,15 +102,15 @@ const AnalyseScreen = () => {
                     <Text> Группа: </Text>
                     <Picker
                         selectedValue={selectedGroup}
-                        style={{ height: 40, width: 180}}
-                        onValueChange={(itemValue, itemIndex) => setSelectedGroup(itemValue)}
+                        style={{ height: 40, width: 180 }}
+                        onValueChange={(itemValue) => setSelectedGroup(itemValue)}
                     >
-                        <Picker.Item label="1095" value="1095" />
-                        <Picker.Item label="1092" value="1092" />
-                        <Picker.Item label="1091" value="1091" />
+                        {fakeTeacherLessonGroups.map((group) => (
+                            <Picker.Item key={group} label={group.toString()} value={group} />
+                        ))}
                     </Picker>
                 </View>
-            {renderTable()}
+                {renderTable()}
             </ScrollView>
         </View>
     );
@@ -110,49 +128,49 @@ const styles = StyleSheet.create({
     },
     cell: {
         borderBottomWidth: 1,
-        borderRightWidth: 1, // Добавляем линии справа
-        borderLeftWidth: 1, // Добавляем линии слева
-        borderColor: 'grey', // Цвет линий между ячейками
+        borderRightWidth: 1,
+        borderLeftWidth: 1,
+        borderColor: 'grey',
     },
     lastCell: {
-        borderRightWidth: 0, // Убираем правую границу для последней ячейки
+        borderRightWidth: 0,
     },
-    picker:{
-        marginTop:-5,
-        marginBottom:-10,
+    picker: {
+        marginTop: -5,
+        marginBottom: -10,
         flexDirection: 'row',
         alignItems: 'center',
     },
     dataWrapper: {
-        marginTop: 0
+        marginTop: 0,
     },
     container: {
         flex: 1,
         padding: 4,
         paddingTop: 30,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     head: {
         height: 50,
-        backgroundColor: '#f1f8ff'
+        backgroundColor: '#f1f8ff',
     },
     wrapper: {
-        flexDirection: 'row'
+        flexDirection: 'row',
     },
     title: {
         flex: 1,
-        backgroundColor: '#f6f8fa'
+        backgroundColor: '#f6f8fa',
     },
     row: {
-        height: 50
+        height: 50,
     },
     text: {
-        textAlign: 'center'
+        textAlign: 'center',
     },
     headText: {
-        fontSize:20,
-        fontWeight:"bold",
-    }
+        fontSize: 20,
+        fontWeight: 'bold',
+    },
 });
 
 export default AnalyseScreen;

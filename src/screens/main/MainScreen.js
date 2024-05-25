@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, {useState, useCallback, useEffect} from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { lessonsFakeData } from "../../fakeData";
 import { AntDesign } from '@expo/vector-icons';
@@ -7,6 +7,14 @@ import { useNavigation } from '@react-navigation/native';
 const HomeScreen = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const navigation = useNavigation();
+    const [lessons, setLessons] = useState([]);
+
+    useEffect(() => {
+        const getData = async () => {
+            setLessons(lessonsFakeData);
+        };
+        getData().then();
+    }, []);
 
     const changeDate = useCallback((direction) => {
         const currentDate = new Date(selectedDate);
@@ -23,7 +31,7 @@ const HomeScreen = () => {
             <View style={styles.itemContainer}>
                 <View>
                     <Text style={styles.titleText}>{item.title}</Text>
-                    <Text>[{item.number}]</Text>
+                    <Text>[{item.groups.join(', ')}]</Text>
                 </View>
                 <Text style={styles.titleText}>{item.time}</Text>
             </View>
@@ -49,7 +57,7 @@ const HomeScreen = () => {
             </View>
 
             <FlatList
-                data={lessonsFakeData}
+                data={lessons}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.id}
             />
