@@ -14,13 +14,14 @@ const LoginScreen = () => {
     const handleLogin = () => {
 
         const user = {
-            id: 123,
-            fullName: "Кирилл Николаенко",
+            id: 666,
+            fullName: "Николаенко Кирилл",
         }
 
         if(user){
             dispatch(setIsLoggedIn(true));
             dispatch(setIsTeacher(true));
+            //dispatch(setIsTeacher(false));
             dispatch(setUser(user));
             userStorage.setUserLocally(user).then();
         }

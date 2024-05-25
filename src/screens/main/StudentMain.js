@@ -1,20 +1,30 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import FlashMessage, { showMessage } from 'react-native-flash-message';
+import {fakeStudents} from "../../fakeData";
 
 const StudentMain = () => {
     const [code, setCode] = useState('');
 
     const handleConfirmation = () => {
         if (code === '1234') {
+
             showMessage({
                 message: "Подтверждение прошло успешно!",
                 type: "success",
+                position: "top",
+                floating: true,
+                duration: 3000,
+                style: { marginTop: 60 }
             });
         } else {
             showMessage({
                 message: "Такой предмет не найден :(",
                 type: "danger",
+                position: "top",
+                floating: true,
+                duration: 3000,
+                style: { marginTop: 60 }
             });
         }
     };

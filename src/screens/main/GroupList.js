@@ -4,7 +4,15 @@ import { fakeStudents } from '../../fakeData';
 
 const GroupList = () => {
     const [selectedGroup, setSelectedGroup] = useState(fakeStudents[0]);
-    const [selectedStudentsIds, setSelectedStudentsIds] = useState({});
+    const [selectedStudentsIds, setSelectedStudentsIds] = useState(() => {
+        const initialSelectedStudents = {};
+        fakeStudents.forEach(group => {
+            initialSelectedStudents[group.group] = group.studentsList
+                .filter(student => student.isVisited)
+                .map(student => student.studentId);
+        });
+        return initialSelectedStudents;
+    });
 
     const toggleStudentSelection = (groupId, studentId) => {
         const groupSelectedStudents = selectedStudentsIds[groupId] || [];
