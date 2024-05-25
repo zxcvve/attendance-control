@@ -2,9 +2,21 @@ import React from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import {AntDesign} from "@expo/vector-icons";
 import {useNavigation} from "@react-navigation/native";
+import {useDispatch, useSelector} from "react-redux";
+import {setIsLoggedIn, setIsTeacher, setUser} from "../../redux/actions/userActions";
+import userStorage from "../../storage/userStorage";
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
+    const user = useSelector((state) => state.user.user);
+    const dispatch = useDispatch();
+
+    const exitPressHandler = async () =>{
+        await userStorage.setUserLocally(null);
+        dispatch(setIsTeacher(false));
+        dispatch(setUser(null));
+        dispatch(setIsLoggedIn(false));
+    }
 
     return (
         <View style={styles.container}>
@@ -17,7 +29,7 @@ const ProfileScreen = () => {
             <View style={styles.section}>
                 <AntDesign name="user" size={24} color={"black"}/>
                 <TouchableOpacity style={styles.item}>
-                    <Text style={styles.buttonText}>Иван Иванов</Text>
+                    <Text style={styles.buttonText}>{user === null ? "Боря" : user.fullName}</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.line}></View>
@@ -40,7 +52,7 @@ const ProfileScreen = () => {
 
             <View style={styles.section}>
                 <AntDesign name="logout" size={24} color={"black"}/>
-                <TouchableOpacity style={styles.item}>
+                <TouchableOpacity style={styles.item} onPress={exitPressHandler}>
                     <Text style={styles.buttonText}>Выход</Text>
                 </TouchableOpacity>
             </View>

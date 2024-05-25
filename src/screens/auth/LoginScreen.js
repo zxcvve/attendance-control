@@ -1,14 +1,29 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import {setIsLoggedIn, setIsTeacher, setUser} from "../../redux/actions/userActions";
+import {useDispatch} from "react-redux";
+import userStorage from "../../storage/userStorage";
 
 const LoginScreen = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigation = useNavigation();
+    const dispatch = useDispatch()
 
     const handleLogin = () => {
-        navigation.navigate('Home');
+
+        const user = {
+            id: 123,
+            fullName: "Кирилл Николаенко",
+        }
+
+        if(user){
+            dispatch(setIsLoggedIn(true));
+            dispatch(setIsTeacher(true));
+            dispatch(setUser(user));
+            userStorage.setUserLocally(user).then();
+        }
     };
 
     return (

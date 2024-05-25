@@ -45,6 +45,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingBottom: 60,
+        paddingTop: 20, // Added paddingTop for spacing from the top
+        padding: 20, // Added padding for all sides
     },
     title: {
         fontSize: 24,

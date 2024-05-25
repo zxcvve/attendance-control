@@ -15,7 +15,7 @@ const AnalyseScreen = () => {
 
     const getCellWidth = (datesList) => {
         let head = [145];
-        let cell = [0];
+        let cell = [];
 
         datesList.forEach(() => {
             head.push(50);
@@ -66,7 +66,7 @@ const AnalyseScreen = () => {
                         <Col
                             data={usersData}
                             style={styles.title}
-                            heightArr={[50]}
+                            heightArr={Array(usersData.length).fill(50)}
                             textStyle={styles.text}
                         />
                         <Rows
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
         padding: 4,
         paddingTop: 30,
         backgroundColor: '#fff',
+        marginTop: 20, // Added marginTop for top margin
     },
     head: {
         height: 50,
